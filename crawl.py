@@ -37,3 +37,33 @@ def handle_arxiv(url):
     """
     arxiv_id = url.rstrip('/').split('/')[-1]
     return get_arxiv_abstract(arxiv_id)
+
+
+def handle_kor_wikipedia(url):
+    """
+    한국어 위키백과 사이트의 main content를 추출하는 함수
+    """
+    response = requests.get(url)
+
+    # error handling
+    if response.status_code != 200:
+        print(f"Error fetching page: {url}")
+        return None
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # find the main content that holds the article text
+    main_content = soup.find('div', class_='mw-parser-output')
+    if not main_content:
+        # if main content container is not found, return to the fallback_extraction
+        print("Main content container not found.")
+        return fallback_extraction(url)
+
+    for tag in main_content.find_all(['script', 'style', 'table', 'ul', 'div']):
+        tag.decompose()
+
+    # extranct only paragraph <p> tags
+    paragraphs = main_content.find_all('p')
+    # extract plain text from paragraphs
+    plain_text = "\n\n".join(p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True))
+    return plain_text
