@@ -121,7 +121,7 @@ if __name__ == "__main__":
     # 런타임 시간 측정
     start_time = time.time()
     for url in test_urls:
-        print(f"\nExtracting content from: {url}")
+        print(f"\컨텐츠 추출 진행 중: {url}")
         content = crawl(url)
         print(content)
         print("-" * 80)
