@@ -107,3 +107,27 @@ def crawl(url):
 
     # fallback logic (logic2에 해당되는 경우)
     return fallback_extraction(url)
+
+# -------------- 테스트 코드 -------------------
+
+if __name__ == "__main__":
+
+    # 주헌 : 여기에 테스트 URL을 추가하면 됩니다
+    test_urls = [
+        "https://arxiv.org/abs/2401.12345",#arxiv 논문 초록
+        "https://ko.wikipedia.org/wiki/데이터_매트릭스",#한국어 위키백과
+        "https://www.yna.co.kr/view/AKR20250204076400009?section=international/all&site=topnews01"#연합뉴스 - readability fallback logic 사용해야함
+    ]
+
+    # 런타임 시간 측정
+    start_time = time.time()
+    for url in test_urls:
+        print(f"\nExtracting content from: {url}")
+        content = crawl(url)
+        print(content)
+        print("-" * 80)
+
+    total_elapsed = time.time() - start_time
+    print(f"\nTime taken to crawl {len(test_urls)} websites: {total_elapsed:.2f} seconds")
+
+# --------------------------------------------
