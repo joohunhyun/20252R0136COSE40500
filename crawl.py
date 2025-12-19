@@ -95,3 +95,15 @@ def fallback_extraction(url):
     print(filtered_text)
     return filtered_text
 
+def crawl(url):
+    """
+    실제 크롤링 함수 - 여기에 로직을 추가할 수 있음
+    주헌 : google search API를 통해 받아온 url을 인자로 사용하면 될 것 같습니다
+    """
+    # check if the URL matches any known site patterns
+    result = dispatch_known_site(url)
+    if result:
+        return result
+
+    # fallback logic (logic2에 해당되는 경우)
+    return fallback_extraction(url)
