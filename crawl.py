@@ -67,3 +67,9 @@ def handle_kor_wikipedia(url):
     # extract plain text from paragraphs
     plain_text = "\n\n".join(p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True))
     return plain_text
+
+# 주헌 : 확장성을 고려해서 사이트 패턴과 핸들러를 딕셔너리로 관리하도록 만들어봤습니다.
+KNOWN_SITE_HANDLERS = {
+    r"arxiv\.org": handle_arxiv,
+    r"ko\.wikipedia\.org": handle_kor_wikipedia,
+}
