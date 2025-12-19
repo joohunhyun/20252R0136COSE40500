@@ -73,3 +73,25 @@ KNOWN_SITE_HANDLERS = {
     r"arxiv\.org": handle_arxiv,
     r"ko\.wikipedia\.org": handle_kor_wikipedia,
 }
+
+def dispatch_known_site(url):
+    """
+    URL이 알려진 사이트 패턴과 일치하는지 확인하고 해당되는 웹사이트의 핸들러를 호출하는 함수
+    """
+    for pattern, handler in KNOWN_SITE_HANDLERS.items():
+        if re.search(pattern, url):
+            return handler(url)
+    return None
+
+def fallback_extraction(url):
+    """
+    readability 라이브러리를 사용하여 main content를 추출하는 함수 (fallback logic)
+    """
+    response = requests.get(url)
+    doc = Document(response.text)
+    main_content_html = doc.summary()
+    soup = BeautifulSoup(main_content_html, 'html.parser')
+    filtered_text = soup.get_text(separator='\n', strip=True)
+    print(filtered_text)
+    return filtered_text
+
